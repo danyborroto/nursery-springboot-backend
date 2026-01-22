@@ -1,4 +1,5 @@
 package com.nursery.app.features.format.service;
+import com.nursery.app.exception.FeatureNotFoundException;
 import com.nursery.app.features.format.dto.FormatRequestDTO;
 import com.nursery.app.features.format.dto.FormatResponseDTO;
 import com.nursery.app.features.format.entity.Format;
@@ -27,7 +28,7 @@ public class FormatService {
 
     public ResponseEntity<FormatResponseDTO> getById(Integer formatId){
         Format format = formatRepository.findById(formatId)
-                .orElseThrow(()->new RuntimeException("Formato no encontrado"));
+                .orElseThrow(()->new FeatureNotFoundException("Format", formatId));
         return ResponseEntity.status(HttpStatus.OK).body(MapToResponseDTO(format));
     }
 
@@ -40,7 +41,7 @@ public class FormatService {
 
     public ResponseEntity<FormatResponseDTO> update(Integer formatId, FormatRequestDTO requestDTO){
         Format format = formatRepository.findById(formatId)
-                .orElseThrow(()->new RuntimeException("Formato no encontrado"));
+                .orElseThrow(()->new FeatureNotFoundException("Format", formatId));
         format.setFormatName(requestDTO.getFormatName());
         format.setActive(requestDTO.getActiva());
         return ResponseEntity.status(HttpStatus.OK).body(MapToResponseDTO(formatRepository.save(format)));
@@ -48,7 +49,7 @@ public class FormatService {
 
     public ResponseEntity<Void> delete(Integer formatId){
         Format format = formatRepository.findById(formatId)
-                .orElseThrow(()->new RuntimeException("Formato no encontrado"));
+                .orElseThrow(()->new FeatureNotFoundException("Format", formatId));
         format.setActive(false);
         formatRepository.save(format);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
