@@ -1,6 +1,9 @@
 package com.nursery.app.features.format.entity;
 
+import com.nursery.app.features.product.entity.Product;
 import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 @Table(name = "formats")
@@ -13,6 +16,8 @@ public class Format {
     private String formatName;
     @Column(name = "active")
     private Boolean active;
+    @OneToMany(mappedBy = "format", fetch = FetchType.LAZY)
+    private List<Product> productos;
 
     public Format(){}
 
@@ -43,5 +48,13 @@ public class Format {
 
     public void setActive(Boolean active) {
         this.active = active;
+    }
+
+    public List<Product> getProductos() {
+        return productos;
+    }
+
+    public void setProductos(List<Product> productos) {
+        this.productos = productos;
     }
 }

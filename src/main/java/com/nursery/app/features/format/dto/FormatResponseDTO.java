@@ -1,16 +1,17 @@
 package com.nursery.app.features.format.dto;
 
+
 public class FormatResponseDTO {
     private Integer formatId;
     private String formatName;
-    private Boolean activa;
+    private Boolean active;
 
     public FormatResponseDTO(){}
 
-    public FormatResponseDTO(Integer formatId, String formatName, Boolean activa){
+    public FormatResponseDTO(Integer formatId, String formatName, Boolean active){
         this.formatId=formatId;
         this.formatName=formatName;
-        this.activa=activa;
+        this.active=active;
     }
 
     public Integer getFormatId() {
@@ -29,11 +30,12 @@ public class FormatResponseDTO {
         this.formatName = formatName;
     }
 
-    public Boolean getActiva() {
-        return activa;
+    public Boolean getActive() {
+        return active;
     }
 
-    public void setActiva(Boolean activa) {
-        this.activa = activa;
+    public void setActive(Boolean active) {
+        this.active = active;
     }
+
 }

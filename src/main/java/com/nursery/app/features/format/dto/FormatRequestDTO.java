@@ -1,16 +1,19 @@
 package com.nursery.app.features.format.dto;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
 
 public class FormatRequestDTO {
     @NotBlank(message = "El nombre es obligatorio")
     private String formatName;
-    private Boolean activa;
+    @NotNull(message = "El campo es obligatorio")
+    private Boolean active;
 
     public FormatRequestDTO(){}
-    public FormatRequestDTO(String formatName, Boolean activa) {
+    public FormatRequestDTO(String formatName, Boolean active) {
         this.formatName = formatName;
-        this.activa = activa;
+        this.active = active;
     }
 
     public String getFormatName() {
@@ -21,11 +24,12 @@ public class FormatRequestDTO {
         this.formatName = formatName;
     }
 
-    public Boolean getActiva() {
-        return activa;
+    public Boolean getActive() {
+        return active;
     }
 
-    public void setActiva(Boolean activa) {
-        this.activa = activa;
+    public void setActive(Boolean active) {
+        this.active = active;
     }
+
 }
