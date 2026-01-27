@@ -10,6 +10,9 @@ import com.nursery.app.features.format.entity.Format;
 import com.nursery.app.features.format.repository.FormatRepository;
 import com.nursery.app.features.product.dto.ProductResponseDTO;
 import com.nursery.app.features.product.entity.Product;
+import com.nursery.app.features.servicio.dto.ServicioRequestDTO;
+import com.nursery.app.features.servicio.dto.ServicioResponseDTO;
+import com.nursery.app.features.servicio.entity.Servicio;
 
 import java.util.List;
 
@@ -37,7 +40,7 @@ public class Mappers {
         return responseDTO;
     }
 
-    public static CartResponseDTO toCartResponseDTO(Cart cart){
+    public static CartResponseDTO toCartResponseDTO(Cart cart) {
         List<CartProductResponseDTO> productos = cart.getCartProducts().stream()
                 .map(Mappers::toCartProductResponseDTO)
                 .toList();
@@ -50,12 +53,22 @@ public class Mappers {
         return responseDTO;
     }
 
-    public static CartProductResponseDTO toCartProductResponseDTO(CartProduct cartProduct){
+    public static CartProductResponseDTO toCartProductResponseDTO(CartProduct cartProduct) {
         CartProductResponseDTO dto = new CartProductResponseDTO();
         dto.setCartId(cartProduct.getCartProductId().getCartId());
         dto.setProductId(cartProduct.getCartProductId().getProductId());
         dto.setPrice(cartProduct.getPrice());
         dto.setQuantity(cartProduct.getQuantity());
         return dto;
+    }
+
+    // Mappers de servicios
+    public static ServicioResponseDTO toServicioResponseDTO(Servicio servicio) {
+        ServicioResponseDTO servicioResponseDTO = new ServicioResponseDTO();
+        servicioResponseDTO.setServiceId(servicio.getServiceId());
+        servicioResponseDTO.setServiceName(servicio.getServiceName());
+        servicioResponseDTO.setSelectable(servicio.getSelectable());
+        servicioResponseDTO.setActive(servicio.getActive());
+        return servicioResponseDTO;
     }
 }
