@@ -95,7 +95,7 @@ public class CartService {
         return ResponseEntity.status(HttpStatus.OK).body(Mappers.toCartProductResponseDTO(saved));
     }
 
-    public ResponseEntity<Void> deleteProduct(Integer cartId, Integer productId, CartProductRequestDTO requestDTO) {
+    public ResponseEntity<Void> deleteProduct(Integer cartId, Integer productId) {
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new FeatureNotFoundException("Product", productId));
         Cart cart = cartRepository.findById(productId)
