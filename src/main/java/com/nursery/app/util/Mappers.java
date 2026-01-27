@@ -5,6 +5,8 @@ import com.nursery.app.features.cart.dto.CartResponseDTO;
 import com.nursery.app.features.cart.entity.Cart;
 import com.nursery.app.features.cart_product.dto.CartProductResponseDTO;
 import com.nursery.app.features.cart_product.entity.CartProduct;
+import com.nursery.app.features.cart_servicio.dto.CartServicioResponseDTO;
+import com.nursery.app.features.cart_servicio.entity.CartServicio;
 import com.nursery.app.features.format.dto.FormatResponseDTO;
 import com.nursery.app.features.format.entity.Format;
 import com.nursery.app.features.format.repository.FormatRepository;
@@ -44,12 +46,16 @@ public class Mappers {
         List<CartProductResponseDTO> productos = cart.getCartProducts().stream()
                 .map(Mappers::toCartProductResponseDTO)
                 .toList();
+        List<CartServicioResponseDTO> servicios = cart.getCartServicios().stream()
+                .map(Mappers::toCartServicioResponseDTO)
+                .toList();
 
         CartResponseDTO responseDTO = new CartResponseDTO();
         responseDTO.setCartId(cart.getCartId());
         responseDTO.setUserId(cart.getUserId());
         responseDTO.setActive(cart.getActive());
         responseDTO.setProducts(productos);
+        responseDTO.setServicios(servicios);
         return responseDTO;
     }
 
@@ -70,5 +76,19 @@ public class Mappers {
         servicioResponseDTO.setSelectable(servicio.getSelectable());
         servicioResponseDTO.setActive(servicio.getActive());
         return servicioResponseDTO;
+    }
+
+    /**
+     * Mapper CartServicio to CartServicioResponseDTO
+     * @param cartServicio
+     * @return
+     */
+    public static CartServicioResponseDTO toCartServicioResponseDTO(CartServicio cartServicio){
+        CartServicioResponseDTO responseDTO = new CartServicioResponseDTO();
+        responseDTO.setId(cartServicio.getId());
+        responseDTO.setCartId(cartServicio.getCart().getCartId());
+        responseDTO.setServiceId(cartServicio.getServicio().getServiceId());
+        responseDTO.setPrice(cartServicio.getPrice());
+        return responseDTO;
     }
 }

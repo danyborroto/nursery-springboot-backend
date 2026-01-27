@@ -1,6 +1,7 @@
 package com.nursery.app.features.cart.dto;
 
 import com.nursery.app.features.cart_product.dto.CartProductResponseDTO;
+import com.nursery.app.features.cart_servicio.dto.CartServicioResponseDTO;
 
 import java.util.List;
 
@@ -9,14 +10,18 @@ public class CartResponseDTO {
     private Integer userId;
     private Boolean active;
     private List<CartProductResponseDTO> products;
+    private List<CartServicioResponseDTO> servicios;
 
-    public CartResponseDTO() {}
+    public CartResponseDTO() {
+    }
 
-    public CartResponseDTO(Integer cartId, Integer userId, Boolean active, List<CartProductResponseDTO> products) {
+    public CartResponseDTO(Integer cartId, Integer userId, Boolean active,
+                           List<CartProductResponseDTO> products, List<CartServicioResponseDTO> servicios) {
         this.cartId = cartId;
         this.userId = userId;
         this.active = active;
         this.products = products;
+        this.servicios = servicios;
     }
 
     public Integer getCartId() {
@@ -49,5 +54,13 @@ public class CartResponseDTO {
 
     public void setProducts(List<CartProductResponseDTO> products) {
         this.products = products;
+    }
+
+    public List<CartServicioResponseDTO> getServicios() {
+        return servicios;
+    }
+
+    public void setServicios(List<CartServicioResponseDTO> servicios) {
+        this.servicios = servicios;
     }
 }

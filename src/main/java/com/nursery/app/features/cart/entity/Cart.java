@@ -1,6 +1,7 @@
 package com.nursery.app.features.cart.entity;
 
 import com.nursery.app.features.cart_product.entity.CartProduct;
+import com.nursery.app.features.cart_servicio.entity.CartServicio;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -19,6 +20,8 @@ public class Cart {
     private Boolean active = true;
     @OneToMany(mappedBy = "cart",cascade = CascadeType.ALL,orphanRemoval = true)
     private List<CartProduct> cartProducts=new ArrayList<>();
+    @OneToMany(mappedBy = "cart",cascade = CascadeType.ALL,orphanRemoval = true)
+    private List<CartServicio> cartServicios = new ArrayList<>();
 
     public Cart(){}
     public Cart(Integer userId, Boolean active){
@@ -56,5 +59,13 @@ public class Cart {
 
     public void setCartProducts(List<CartProduct> cartProducts) {
         this.cartProducts = cartProducts;
+    }
+
+    public List<CartServicio> getCartServicios() {
+        return cartServicios;
+    }
+
+    public void setCartServicios(List<CartServicio> cartServicios) {
+        this.cartServicios = cartServicios;
     }
 }

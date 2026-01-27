@@ -10,9 +10,15 @@ import com.nursery.app.features.cart_product.dto.CartProductResponseDTO;
 import com.nursery.app.features.cart_product.entity.CartProduct;
 import com.nursery.app.features.cart_product.entity.CartProductId;
 import com.nursery.app.features.cart_product.repository.CartProductRepository;
+import com.nursery.app.features.cart_servicio.dto.CartServicioRequestDTO;
+import com.nursery.app.features.cart_servicio.dto.CartServicioResponseDTO;
+import com.nursery.app.features.cart_servicio.entity.CartServicio;
+import com.nursery.app.features.cart_servicio.repository.CartServiceRepository;
 import com.nursery.app.features.product.dto.ProductResponseDTO;
 import com.nursery.app.features.product.entity.Product;
 import com.nursery.app.features.product.repository.ProductRepository;
+import com.nursery.app.features.servicio.entity.Servicio;
+import com.nursery.app.features.servicio.repository.ServicioRepository;
 import com.nursery.app.util.Mappers;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,11 +31,17 @@ public class CartService {
     private final CartRepository cartRepository;
     private final CartProductRepository cartProductRepository;
     private final ProductRepository productRepository;
+    private final ServicioRepository servicioRepository;
+    private final CartServiceRepository cartServiceRepository;
 
-    public CartService(CartRepository cartRepository, CartProductRepository cartProductRepository, ProductRepository productRepository) {
+    public CartService(CartRepository cartRepository, CartProductRepository cartProductRepository,
+                       ProductRepository productRepository, ServicioRepository servicioRepository,
+                       CartServiceRepository cartServiceRepository) {
         this.cartRepository = cartRepository;
         this.cartProductRepository = cartProductRepository;
         this.productRepository = productRepository;
+        this.servicioRepository = servicioRepository;
+        this.cartServiceRepository = cartServiceRepository;
     }
 
     public ResponseEntity<List<CartResponseDTO>> getAll() {
@@ -57,6 +69,7 @@ public class CartService {
         Cart saved = cartRepository.save(cart);
         return ResponseEntity.status(HttpStatus.CREATED).body(Mappers.toCartResponseDTO(saved));
     }
+
     public ResponseEntity<Void> delete(Integer cartId) {
         Cart cart = cartRepository.findById(cartId)
                 .orElseThrow(() -> new FeatureNotFoundException("Cart", cartId));
@@ -104,6 +117,42 @@ public class CartService {
         CartProduct cartProduct = cartProductRepository.findByCart_CartIdAndProduct_ProductId(cart.getCartId(), product.getProductId())
                 .orElseThrow(() -> new FeatureNotFoundException("Product on Cart", product.getProductId()));
         cartProductRepository.delete(cartProduct);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    public ResponseEntity<CartServicioResponseDTO> addService(Integer cartId, Integer serviceId, CartServicioRequestDTO dto) {
+        Servicio servicio = servicioRepository.findById(serviceId)
+                .orElseThrow(() -> new FeatureNotFoundException("Servicio", serviceId));
+        Cart cart = cartRepository.findById(cartId)
+                .orElseThrow(() -> new FeatureNotFoundException("Cart", cartId));
+        CartServicio cartServicio = new CartServicio();
+        cartServicio.setCart(cart);
+        cartServicio.setServicio(servicio);
+        cartServicio.setPrice(dto.getPrice());
+        CartServicio saved = cartServiceRepository.save(cartServicio);
+        return ResponseEntity.status(HttpStatus.CREATED).body(Mappers.toCartServicioResponseDTO(saved));
+    }
+
+    public ResponseEntity<CartServicioResponseDTO> updateService(Integer cartId, Integer serviceId, CartServicioRequestDTO dto) {
+        Cart cart = cartRepository.findById(cartId)
+                .orElseThrow(() -> new FeatureNotFoundException("Cart", cartId));
+        Servicio service = servicioRepository.findById(serviceId)
+                .orElseThrow(() -> new FeatureNotFoundException("Service", serviceId));
+        CartServicio cartServicio = cartServiceRepository.findByCartCartIdAndServicioServiceId(cartId, serviceId)
+                .orElseThrow(() -> new RuntimeException("Registro no encontrado"));
+        cartServicio.setPrice(dto.getPrice());
+        CartServicio saved = cartServiceRepository.save(cartServicio);
+        return ResponseEntity.status(HttpStatus.OK).body(Mappers.toCartServicioResponseDTO(saved));
+    }
+
+    public ResponseEntity<Void> deleteService(Integer cartId, Integer serviceId) {
+        Cart cart = cartRepository.findById(cartId)
+                .orElseThrow(() -> new FeatureNotFoundException("Cart", cartId));
+        Servicio service = servicioRepository.findById(serviceId)
+                .orElseThrow(() -> new FeatureNotFoundException("Service", serviceId));
+        CartServicio cartServicio = cartServiceRepository.findByCartCartIdAndServicioServiceId(cartId, serviceId)
+                .orElseThrow(() -> new RuntimeException("Registro no encontrado"));
+        cartServiceRepository.delete(cartServicio);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }

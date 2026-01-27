@@ -1,6 +1,9 @@
 package com.nursery.app.features.servicio.entity;
 
+import com.nursery.app.features.cart_servicio.entity.CartServicio;
 import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 @Table(name = "services")
@@ -15,14 +18,17 @@ public class Servicio {
     private Boolean selectable;
     @Column(name = "active")
     private Boolean active;
+    @OneToMany(mappedBy = "servicio",cascade = CascadeType.ALL,orphanRemoval = true)
+    private List<CartServicio> cartServicios;
 
     public Servicio() {}
 
-    public Servicio(Integer serviceId, String serviceName, Boolean selectable, Boolean active) {
+    public Servicio(Integer serviceId, String serviceName, Boolean selectable, Boolean active, List<CartServicio> cartServicios) {
         this.serviceId = serviceId;
         this.serviceName = serviceName;
         this.selectable = selectable;
         this.active = active;
+        this.cartServicios = cartServicios;
     }
 
     public Integer getServiceId() {
@@ -55,5 +61,13 @@ public class Servicio {
 
     public void setActive(Boolean active) {
         this.active = active;
+    }
+
+    public List<CartServicio> getCartServicios() {
+        return cartServicios;
+    }
+
+    public void setCartServicios(List<CartServicio> cartServicios) {
+        this.cartServicios = cartServicios;
     }
 }

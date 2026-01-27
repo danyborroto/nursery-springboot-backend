@@ -5,6 +5,8 @@ import com.nursery.app.features.cart.dto.CartResponseDTO;
 import com.nursery.app.features.cart.service.CartService;
 import com.nursery.app.features.cart_product.dto.CartProductRequestDTO;
 import com.nursery.app.features.cart_product.dto.CartProductResponseDTO;
+import com.nursery.app.features.cart_servicio.dto.CartServicioRequestDTO;
+import com.nursery.app.features.cart_servicio.dto.CartServicioResponseDTO;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -54,5 +56,19 @@ public class CartController {
     @DeleteMapping("/{cartId}/item/{productId}")
     public ResponseEntity<Void> deleteProduct(@PathVariable Integer cartId, @PathVariable Integer productId) {
         return cartService.deleteProduct(cartId, productId);
+    }
+
+    @PostMapping("/{cartId}/service/{servicioId}")
+    public ResponseEntity<CartServicioResponseDTO> addServicio(@PathVariable Integer cartId, @PathVariable Integer servicioId, @Valid @RequestBody CartServicioRequestDTO dto){
+        return cartService.addService(cartId,servicioId,dto);
+    }
+    @PutMapping("/{cartId}/service/{servicioId}")
+    public ResponseEntity<CartServicioResponseDTO> updateServicio(@PathVariable Integer cartId, @PathVariable Integer servicioId, @Valid @RequestBody CartServicioRequestDTO dto){
+        return cartService.updateService(cartId,servicioId,dto);
+    }
+
+    @DeleteMapping("/{cartId}/service/{servicioId}")
+    public ResponseEntity<Void> deleteServicio(@PathVariable Integer cartId, @PathVariable Integer servicioId){
+        return cartService.deleteService(cartId,servicioId);
     }
 }
