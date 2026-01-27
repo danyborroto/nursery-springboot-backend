@@ -68,7 +68,7 @@ public class CartService {
     public ResponseEntity<CartProductResponseDTO> addProduct(Integer cartId, Integer productId, CartProductRequestDTO requestDTO) {
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new FeatureNotFoundException("Product", productId));
-        Cart cart = cartRepository.findById(productId)
+        Cart cart = cartRepository.findById(cartId)
                 .orElseThrow(() -> new FeatureNotFoundException("Cart", cartId));
 
         CartProduct cartProduct = new CartProduct();
@@ -85,7 +85,7 @@ public class CartService {
     public ResponseEntity<CartProductResponseDTO> updateProduct(Integer cartId, Integer productId, CartProductRequestDTO requestDTO) {
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new FeatureNotFoundException("Product", productId));
-        Cart cart = cartRepository.findById(productId)
+        Cart cart = cartRepository.findById(cartId)
                 .orElseThrow(() -> new FeatureNotFoundException("Cart", cartId));
 
         CartProduct cartProduct = cartProductRepository.findByCart_CartIdAndProduct_ProductId(cart.getCartId(), product.getProductId())
@@ -98,7 +98,7 @@ public class CartService {
     public ResponseEntity<Void> deleteProduct(Integer cartId, Integer productId) {
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new FeatureNotFoundException("Product", productId));
-        Cart cart = cartRepository.findById(productId)
+        Cart cart = cartRepository.findById(cartId)
                 .orElseThrow(() -> new FeatureNotFoundException("Cart", cartId));
 
         CartProduct cartProduct = cartProductRepository.findByCart_CartIdAndProduct_ProductId(cart.getCartId(), product.getProductId())

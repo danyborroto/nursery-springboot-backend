@@ -20,7 +20,7 @@ public class CartProduct {
     @JoinColumn(name = "product_id")
     private Product product;
 
-    @Column(name = "price")
+    @Column(name = "price", columnDefinition = "NUMERIC")
     private Double price;
     @Column(name = "count")
     private Integer quantity;
