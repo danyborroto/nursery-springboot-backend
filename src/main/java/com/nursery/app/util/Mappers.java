@@ -15,6 +15,8 @@ import com.nursery.app.features.product.entity.Product;
 import com.nursery.app.features.servicio.dto.ServicioRequestDTO;
 import com.nursery.app.features.servicio.dto.ServicioResponseDTO;
 import com.nursery.app.features.servicio.entity.Servicio;
+import com.nursery.app.features.users.dto.UserResponseDTO;
+import com.nursery.app.features.users.entity.User;
 
 import java.util.List;
 
@@ -80,15 +82,27 @@ public class Mappers {
 
     /**
      * Mapper CartServicio to CartServicioResponseDTO
+     *
      * @param cartServicio
      * @return
      */
-    public static CartServicioResponseDTO toCartServicioResponseDTO(CartServicio cartServicio){
+    public static CartServicioResponseDTO toCartServicioResponseDTO(CartServicio cartServicio) {
         CartServicioResponseDTO responseDTO = new CartServicioResponseDTO();
         responseDTO.setId(cartServicio.getId());
         responseDTO.setCartId(cartServicio.getCart().getCartId());
         responseDTO.setServiceId(cartServicio.getServicio().getServiceId());
         responseDTO.setPrice(cartServicio.getPrice());
         return responseDTO;
+    }
+
+    public static UserResponseDTO toUserResponseDTO(User user) {
+        UserResponseDTO res = new UserResponseDTO();
+        res.setUserName(user.getUserName());
+        res.setUserId(user.getUserId());
+        res.setUserEmail(user.getUserEmail());
+        res.setUserPhone(user.getUserPhone());
+        res.setAdmin(user.getAdmin());
+        res.setActive(user.getActive());
+        return res;
     }
 }
