@@ -38,7 +38,7 @@ public class UserService {
     }
 
     public ResponseEntity<UserResponseDTO> findByName(String userName) {
-        User user = userRepository.findUserByUserName(userName)
+        User user = userRepository.findByUserName(userName)
                 .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
         return ResponseEntity.status(HttpStatus.OK).body(Mappers.toUserResponseDTO(user));
     }

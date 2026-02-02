@@ -1,4 +1,4 @@
-package com.nursery.app.features.users.security;
+package com.nursery.app.common.security;
 
 import com.nursery.app.features.users.entity.User;
 import org.jspecify.annotations.Nullable;
@@ -9,10 +9,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.List;
 
-public class UserDetailsImp implements UserDetails {
+public class CustomUserDetails implements UserDetails {
     private final User user;
 
-    public UserDetailsImp(User user) {
+    public CustomUserDetails(User user) {
         this.user = user;
     }
 
@@ -25,7 +25,7 @@ public class UserDetailsImp implements UserDetails {
     }
 
     @Override
-    public String getPassword() {
+    public @Nullable String getPassword() {
         return user.getUserPassword();
     }
 
