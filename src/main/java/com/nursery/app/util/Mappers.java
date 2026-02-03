@@ -10,6 +10,8 @@ import com.nursery.app.features.cart_servicio.entity.CartServicio;
 import com.nursery.app.features.format.dto.FormatResponseDTO;
 import com.nursery.app.features.format.entity.Format;
 import com.nursery.app.features.format.repository.FormatRepository;
+import com.nursery.app.features.information.dto.InformationResponseDTO;
+import com.nursery.app.features.information.entity.Information;
 import com.nursery.app.features.product.dto.ProductResponseDTO;
 import com.nursery.app.features.product.entity.Product;
 import com.nursery.app.features.servicio.dto.ServicioRequestDTO;
@@ -103,6 +105,20 @@ public class Mappers {
         res.setUserPhone(user.getUserPhone());
         res.setAdmin(user.getAdmin());
         res.setActive(user.getActive());
+        return res;
+    }
+
+    public static InformationResponseDTO toInfoResponseDTO(Information info){
+        InformationResponseDTO res = new InformationResponseDTO();
+        res.setInfoId(info.getInfoId());
+        res.setNurseryName(info.getNurseryName());
+        res.setDescription(info.getDescription());
+        res.setHistory(info.getHistory());
+        res.setAddress(info.getAddress());
+        res.setEmail(info.getEmail());
+        res.setPhonePrimary(info.getPhonePrimary());
+        res.setPhoneSecondary(info.getPhoneSecondary());
+
         return res;
     }
 }
