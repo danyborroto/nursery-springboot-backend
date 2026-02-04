@@ -1,6 +1,5 @@
 package com.nursery.app.util;
 
-import com.nursery.app.exception.FeatureNotFoundException;
 import com.nursery.app.features.cart.dto.CartResponseDTO;
 import com.nursery.app.features.cart.entity.Cart;
 import com.nursery.app.features.cart_product.dto.CartProductResponseDTO;
@@ -12,9 +11,14 @@ import com.nursery.app.features.format.entity.Format;
 import com.nursery.app.features.format.repository.FormatRepository;
 import com.nursery.app.features.information.dto.InformationResponseDTO;
 import com.nursery.app.features.information.entity.Information;
+import com.nursery.app.features.invoice.dto.InvoiceResponseDTO;
+import com.nursery.app.features.invoice.entity.Invoice;
+import com.nursery.app.features.invoice_product.dto.InvoiceProductResponseDTO;
+import com.nursery.app.features.invoice_product.entity.InvoiceProduct;
+import com.nursery.app.features.invoice_servicio.dto.InvoiceServiceResponseDTO;
+import com.nursery.app.features.invoice_servicio.entity.InvoiceServiceEntity;
 import com.nursery.app.features.product.dto.ProductResponseDTO;
 import com.nursery.app.features.product.entity.Product;
-import com.nursery.app.features.servicio.dto.ServicioRequestDTO;
 import com.nursery.app.features.servicio.dto.ServicioResponseDTO;
 import com.nursery.app.features.servicio.entity.Servicio;
 import com.nursery.app.features.users.dto.UserResponseDTO;
@@ -121,4 +125,43 @@ public class Mappers {
 
         return res;
     }
+
+    public static InvoiceResponseDTO toInvoiceResponseDTO(Invoice invoice) {
+        List<InvoiceProductResponseDTO> productos = invoice.getInvoiceProducts().stream()
+                .map(Mappers::toInvoiceProductResponseDTO)
+                .toList();
+        List<InvoiceServiceResponseDTO> servicios = invoice.getInvoiceServicios().stream()
+                .map(Mappers::toInvoiceServicioResponseDTO)
+                .toList();
+
+        InvoiceResponseDTO responseDTO = new InvoiceResponseDTO();
+        responseDTO.setInvoiceId(invoice.getInvoiceId());
+        responseDTO.setUserId(invoice.getUser().getUserId());
+        responseDTO.setProducts(productos);
+        responseDTO.setServicios(servicios);
+        responseDTO.setAddress(invoice.getAddress());
+        responseDTO.setInvoiceStatus(invoice.getInvoiceStatus());
+        responseDTO.setDateOrder(invoice.getDateOrder());
+        responseDTO.setInvoiceDate(invoice.getInvoiceDate());
+        return responseDTO;
+    }
+
+    public static InvoiceProductResponseDTO toInvoiceProductResponseDTO(InvoiceProduct invoiceProduct) {
+        InvoiceProductResponseDTO dto = new InvoiceProductResponseDTO();
+        dto.setId(invoiceProduct.getId());
+        dto.setInvoiceId(invoiceProduct.getInvoice().getInvoiceId());
+        dto.setProductId(invoiceProduct.getProduct().getProductId());
+        dto.setPrice(invoiceProduct.getPrice());
+        dto.setCount(invoiceProduct.getCount());
+        return dto;
+    }
+    public static InvoiceServiceResponseDTO toInvoiceServicioResponseDTO(InvoiceServiceEntity invoiceServicio) {
+        InvoiceServiceResponseDTO responseDTO = new InvoiceServiceResponseDTO();
+        responseDTO.setId(invoiceServicio.getId());
+        responseDTO.setInvoiceId(invoiceServicio.getInvoice().getInvoiceId());
+        responseDTO.setPrice(invoiceServicio.getPrice());
+        responseDTO.setServiceId(invoiceServicio.getServicio().getServiceId());
+        return responseDTO;
+    }
+
 }
